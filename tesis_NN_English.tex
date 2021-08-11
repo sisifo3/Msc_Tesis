@@ -1,0 +1,2189 @@
+\documentclass[letterpaper,12pt,openright,oneside]{article}
+
+
+\usepackage{cite}
+\usepackage{caption}
+%\captionsetup[table]{name= Tabla}
+%\captionsetup[figure]{name= Figura}
+%\renewcommand{\contentsname}{Tabla de Contenido.}
+%\renewcommand{\listfigurename}{Lista de Figuras.}
+%\renewcommand{\listtablename}{Lista de Tablas.}
+
+\usepackage{fancyhdr, graphicx}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[R]{}
+\fancyhead[L]{
+\adjincludegraphics[height=2.6cm,trim={0cm 0cm 1cm 0cm},clip]{uaqlogo-eps-converted-to}
+}
+
+
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+
+\lstset{language=R,
+    basicstyle=\small\ttfamily,
+    stringstyle=\color{dkgreen},
+    otherkeywords={0,1,2,3,4,5,6,7,8,9},
+    morekeywords={TRUE,FALSE},
+    deletekeywords={data,frame,length,as,character},
+    keywordstyle=\color{gray},
+    commentstyle=\color{dkgreen},
+}
+
+
+
+
+
+
+
+
+
+\usepackage[linesnumbered, ruled]{algorithm2e}
+\SetKwRepeat{Do}{do}{while}%
+
+\usepackage[square,sort,comma,numbers]{natbib}
+%\usepackage{natbib}
+%\usepackage[options]{natbib}
+%\usepackage{natbib}
+\usepackage{amssymb} 
+\usepackage[utf8]{inputenc}
+\usepackage{blindtext}
+%\usepackage{apacite}
+\usepackage{makeidx}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[export]{adjustbox}
+\usepackage{enumerate} % To modify the enumerate environment
+\usepackage{titlesec}
+\usepackage[normalem]{ulem}
+\usepackage[utf8]{inputenc}
+
+%\renewcommand{\thesection}{\Roman{section}} 
+%\renewcommand{\thesubsection}{\thesection.\Roman{subsection}}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+\begin{document}
+
+
+
+
+
+
+
+\begin{titlepage}
+
+%\includegraphics[width=0.1\textwidth]{./uaqlogo}~\\[.1cm]
+
+\begin{center}
+
+
+\textsc{\LARGE Autonomous University of Queretaro}\\[.5cm]
+%\includegraphics[width=0.1\textwidth]{./uaqlogo}~\\[.1cm]
+\textsc{\Large Department of Engineering \\ \large{Master Science in Artificial Intelligence}}\\[.5cm]
+
+% Title
+%\HRule \\[0.4cm]
+{  \bfseries Implementación de algoritmo de inteligencia artificial para la clasificación de señales EEG 
+ \\[0.1cm] }
+%\vspace*{1cm}
+%\HRule \\[1.5cm]
+\emph{ } \\
+
+by:\\
+Iván Alejandro García Amaya\\ 
+\emph{ } \\
+
+
+A Thesis submitted in fulfilment of requirements for the degree of
+Master of Science of Autonomus University of Queretaro.\\
+
+\emph{ }\\
+
+
+Supervised by Dr. Marco Antonio Aceves Fernández
+
+
+\end{center}
+
+\hspace{-.8cm} \underline{Dr. Marco Antonio Aceves Fernández}  \hspace{1.8cm}    \underline{  \qquad  \qquad \qquad \qquad }\\
+President \hspace{7.8cm} Firma\\
+\\
+\underline{Dr. Efrén Gorrostieta Hurtado}  \hspace{2.99cm}     \underline{  \qquad  \qquad \qquad \qquad } \\
+Secretary \hspace{7.8cm} Firma \\
+\\
+\underline{Dr. Juan Manuel Ramos Arreguín}\hspace{2.5cm}      \underline{ \qquad \qquad \qquad \qquad } \\
+Vocal  \hspace{8.5cm} Firma \\
+\\ 
+\underline{Dr. Jesús Carlos Pedraza Ortega} \hspace{2.6cm} \underline{  \qquad  \qquad \qquad \qquad } \\
+Alternate \hspace{7.8cm} Firma \\
+\\
+\underline{Dr. Saúl Tovar Arriaga} \hspace{4.3cm} \underline{  \qquad  \qquad \qquad \qquad } \\
+Alternate \hspace{7.8cm} Firma \\
+
+\thispagestyle{fancy}
+
+
+
+
+% Author and supervisor
+\noindent
+\begin{minipage}{0.8\textwidth}
+\begin{flushleft} \large
+
+\end{flushleft}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{ } \\
+
+%Firma\\
+\end{flushright}
+\end{minipage} 
+
+
+\vfill
+
+
+
+\end{titlepage}
+
+
+
+\pagebreak
+
+
+
+Abstract\\
+
+%Attention-Deficit and Hyperactivity Disorder (ADHD) is one of the problems that society borders, in this work is proposed to address this issue through the classifications of electroencephalogram (EEG) signals, after applying a pre-processing, Conversion of Time-Series Classification (TSC) to 2D images is proposed through the Continous Wavelet Transform (CWT) technique and for the classification process the use of the pre-trained ResNet -152, ResNeXt-101 and GoogLeNet models.\\
+
+
+Attention Deficit Hyperactivity Disorder is one of the problems that affect a considerable part of society, in this research work a couple of methodologies are proposed to address this problem through the classifications of electroencephalogram signals. The first methodology consists of filtering the electroencephalogram signals to remove the greatest amount of noise and to extract the $\beta$ band. Then it is necessary to extract the Absolute Power of the electroencephalogram signals from the selected channels (Cz, C3, C4, Fz, Pz). The Absolute Power generates a smaller data set with the help of a Genetic Algorithm which selects the most representative attributes to be able to represent them in 2D images. In this case, with the help of the Continuous Wavelet Transform technique, a Power Spectrum represented in 2D images is obtained. The three Deep Learning Models that are implemented are  ResNet-152, the ResNeXt-101 and the GoogLeNet. Similar results are observed with the implementation of these models; with the ResNet-152 model an accuracy of 86.6\% is shown as a result, with the ResNeXt-101 model shows an accuracy of 83.92\% and with the GoogLeNet model an accuracy of 85.74\%.
+The second methodology for the approach to the classification of people diagnosed with Attention Deficit and Hyperactivity Disorder and people of Control making use of the electroencephalogram, proposes a filtering phase first where the noise from the signals is removed, while extracting the $\beta$ band and five different measurs are extracted: Standard Deviation, Variance, Entropy, Absolute Power and Relative Power. Each of these measurs provides relevant information. Two algorithms are implemented which are Logistic Regression and the Maximum Likelihood, these models are trained with 70\% of the data set and 30\% are used for validation that is randomly selected, this process is repeated several times and the best results obtained are 80.30\% of accuracy in the Logistic Regression model and 84.40\% in the Maximum Likelihood model, greater extraction of characteristics translates into a greater amount of information, the correct extraction of information allows us to implement algorithms such as Logistic Regression and Maximum likelihood   
+
+\pagebreak
+
+
+
+
+Acknowledgements\\
+
+Firstly, I would like to gratefully acknowledge my supervisor Dr Marco Antonio Aceves Fernández for his enthusiastic supervision, valuable input, and guidance throughout this work.\\
+
+I would also like to thank my second supervisor Dr Jesus Carlos Pedraza Ortega and Dr Saúl tovar Arriaga for their helpful advice and suggestions.\\
+
+Finally. I would like to thank my family for their support, encouragement, and education, especially to my mother and my son for their understanding and support in this chapter of our lives\\
+
+En ese instante gigante, he visto millones de actos deleitables o atroces; ninguno me asombró como el hecho de que todos ocuparan el mismo punto, sin superposición y sin trasparencia. Lo que vieron mis ojos fue simultáneo: lo que transcribiré, sucesivo, porque el lenguaje lo es. Algo, sin embargo, recogeré.     
+(In that single gigantic instant I saw millions of acts both delightful and awful; not one of them amazed me more than the fact that all of them occupied the same point in space, without overlapping or transparency What my eyes beheld was simultaneous, but what I shall now write down will be successive, because language is successive. Nonetheless, I’ll try to recollect what I can).
+Jorge Luis Borges, The Aleph, page 13. translate by Norman Thomas di Giovanni.\\
+
+\pagebreak
+
+
+
+
+
+%Publication
+
+
+
+%\pagebreak
+
+List of Abbreviations\\
+
+ADHD   Attention-Deficit and Hyperactivity Disorder\\
+
+EEG    electroencephalogram\\
+
+TSC    Time-Series Classification \\
+
+CWT    Continous Wavelet Transform \\
+
+SVM    Support Vector Machine\\
+
+MEFM   Mixture of Expert Fuzzy Models\\
+
+ANCOVA Analysis of Covariance\\
+
+ANOVA  Analysis of Variance\\
+
+LDA    Linear Discriminant Analysis\\
+
+DLDA   Direct Linear Discriminant Analysis\\
+
+DISR   Double Input Symmetrical Relevance\\
+
+mRMR   minimum Redundancy Maximum Relevance\\
+
+PSD    Power Spectral Density\\
+
+PSDEDs Power Spectrum Density Energy Diagrams\\
+
+LOFC   Low Order Functional Connectivity\\
+
+RP 	   Recurrent Plot\\ 	
+
+OSA    Obstructive Sleep Apnea\\
+
+GA     Genetic Algorithm\\
+
+ReLU   Rectified Linear Unit\\
+
+ICA	   Independent Components Analysis\\
+
+PCA    Principal Components Analisys\\
+
+MLP    Multi Layer Perceptron\\
+
+FD     Fractal Dimension \\
+
+ResNet Residual Network\\
+
+CNN    Convolutional Neural Networks\\
+
+SCP    Slow Cortex Potential\\
+
+CNV    Contingent Negative Variance \\
+
+\pagebreak
+
+List of Nomenclatures\\
+
+$\sigma$ Standard deviation\\
+
+$\mu$  Mean\\
+
+$\sigma^2$  Variance\\
+
+$\Psi(t)$  Complex-valued wavelet Morlet \\
+ 
+$x(t)$   EEG signals\\
+
+$Z$ Z-Score\\ 
+ 
+ 
+\pagebreak
+
+\tableofcontents
+\listoffigures
+\listoftables 
+
+\pagebreak
+
+
+
+
+\index{Chapter 1 Introduction.}
+\section{Chapter 1 Introduction.}
+
+%Attention Deficit Disorder is a disorder that affects a large number of individuals, the criteria for diagnosis are established in the DSM \cite{rab}
+%In subjects with ADHD, an increase in the power of the delta $\delta$ and theta $\theta$ bands are shown, the inattention decrease in alpha $\alpha$ and beta $\beta$ \cite{Yag1}.\\
+
+%Most generally, the rule of thumb would be to use min-max normalization if you want to normalize the data while keeping some differences in scales (because units remain different), and use standardization if you want to make scales comparable (through standard deviations).
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 19cm 0cm 0cm},clip]{AI101}}
+%\caption{The Scientist and Engineer's Guide toDigital Signal Processing}
+%\label{fig 101}
+%\end{figure}
+
+
+
+\subsection{Background.}
+Attention Deficit Hyperactivity and Disorder (ADHD) have a great influence on brain activity, and the study of this process can be categorized mostly into 3 groups \cite{Yag1}. The first group focuses on the study of event-related potential (ERP), in which implement different types of tests and in these studies a difference is reported in the levels of activity in the parietal and frontal lobes, a second group focuses on Slow Cortex Potential (SCP). In this type of research it is mentioned that the contingent negative variance (CNV) in subjects diagnosed with ADHD is lower than in control subjects, finally, a third group that focuses on data mining and neurofeedback, use EEG signals and emphasize that a subject diagnosed with ADHD has an increase in the power of the $\delta$ and $\theta$ waves and the lack of attention generates a decrease in the power of the $\alpha$ and $\beta$ waves.\\
+
+In this research, the proposed approach is focused on the third group mentioned above \cite{Yag1}, where it is intended to find the variation in the power of the different waves, this through different techniques which we will address throughout this investigation.\\
+
+
+For the classification of EEG signals, the use of Support Vector Machines (SVM) has been applied to generate different results of accuracy, Helgadttir use 17 channels according 10-20 international system and SVM model with 79\% of accuracy \cite{hel}, Tenev applied 4 SVM models obtaining an accuracy of 82.3\% \cite{Tenv}, Abibuallaev applied power spectral density and SVM with a result of 98.25\% , Reza Yahoobi has the two works with the highest accuracy, SVM with Stochastic Fractal Search with 98.25\% of accuracy and Mixture of Expert Fuzzy Models (MEFM) with 99.01\% \cite{Yag1} \cite{Yag2}.\\
+
+The Cz channel was used as the only channel in different works, using its theta / beta ratio, Ogrim applied the ANCOVA statistical tool obtaining an accuracy of 58\% \cite{OGRIM}, Snyder on the other hand applied ANOVA obtaining 89\% \cite{SNYDER}, Monastra achieves better results applying ANOVA with 91\% of accuracy \cite{Monastra}.\\
+
+Also Sadatnezhad applied Linear Discriminant Analysis (LDA) in addition to other classification techniques such as Direct linear discriminant analysis (DLDA), the results obtained depend on certain conditions such as eyes open or eyes closed and noise ratio, with 10\% of this and open eyes get 80.92\% $\pm$ 16.23 of accuracy \cite{SADATNEZHAD}, Ahmadlou use one-way ANOVA to find the most discriminative features and LDA model  for classification that give them  an accuracy of 84.2\% \cite{AHMADLOU}, Magee used 3 different clusters in these  the Linear Regression model was implemented,  mentions that collectively these three equations give an accuracy of 87\% \cite{MAGEE}.\\
+
+Mohammadi implemented a Multilayer Preceptron, to select the best characteristics, he implemented two different techniques Double Input Symmetrical Relevance (DISR) and minimum Redundancy Maximum Relevance (mRMR), obtained 93.65\% accuracy\cite{Xarticle}, the repository generated in the research is the same as that used in this work, it is addressed in greater depth in the dataset section.
+
+
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=15cm,trim={4cm 5.5cm 0 4cm},clip]{tab_c18}}
+%\caption{Previous work in the classification of EEG signals. The first column shows the first author, in the column of channels, %the channels used for the collection of EEG signals according to the international 10-20 system, N is the number of participants %in the study.}
+%\label{tab1}
+%\end{table}
+
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=15cm,trim={4cm 7cm 0 4cm},clip]{tab_c45}}
+\caption{Previous work in the classification of EEG signals.}
+\label{tab1}
+\end{table}
+
+
+It is important to address the use of residual networks in the classification of EEG signals, regardless of the purpose of these investigations, there are some tools to address this issue. Bizopoulos made use of Signal2Image (S2Is), to convert signals to images, implemented different models, LeNet , AlexNet, VGGnet, ResNet, DenseNet and their variations, as shown in table \ref{tab 36}, with the use of ResNet152 an accuracy of 74.1 \% \cite{Bizopu} \\.
+
+Junayed made use of power spectral density (PSD) to detect different sleep stages with the use of the ResNet model, obtaining a qualification accuracy of 87.8\% in women and 83.7\% in men. \cite{hasan} \\.
+
+Shalbaf aimed to identify Schizophrenia using EEG signals, he applied continuous wavelet transform (CWT) method to convert the signals into images, then he made use of 4 different pre-trained CNNs models: AlexNet, ResNet-18, VGG-19 and Inception-v3 and then they used the output of these models like inputs of support vector machine (SVM) classifier with an accuracy of 98.60 \% \cite{Ahmad} \\
+
+Yunyuan in his work for classification on people with epilepsy, the EEG signals are denoised by wavelet transform and then analyzed by power spectrum density (PSD), the two-dimensional images generated from PSD, are called power spectrum density energy diagrams (PSDEDs), These reflect the energy information of different frequency bands and as classification algorithms, he implements Inception-ResNet-v2, Inception-v3, and ResNEt152 obtaining an accuracy of 91.9\%, 91.3\%, 95\% respectively \cite{Gao}\\
+
+Duan in his work for the diagnosis of Alzheimer using EEG signals, used Low Order Functional Connectivity (LOFC) as input for a ResNet-18 model with an accuracy of 98.33 \% \cite{Duan}\\
+
+
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=5cm,trim={0cm 18cm 0 4cm},clip]{tab_c22}}
+%\caption{Previous work in the classification of EEG signals using ResNet model.}
+%\label{tab 22}
+%\end{table}
+
+
+
+
+Hatami in his work makes a deep analysis in the use of Recurrent Plot (RP) to transform Time-Series Signals (TSC) to 2D images and use these as inputs in deep CNN classifier using the UCR archive dataset \cite{hatami2017classification}.
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=7cm,trim={5.2cm 15.5cm 0 4cm},clip]{tab_c56}}
+\caption{Previous work in the classification of EEG signals using ResNet-ResNeXt model.}
+\label{tab 36}
+\end{table}
+
+In the use of the ResNeXt model, for the classification of EEG signals, there are several works, for example for the classification of epilepsy \cite{Wang2019.12.27.889238}, where consistent results have been obtained. In this work, the EEG signals are used as training input in the model, leaving aside the techniques to convert them into 2D images, showing good results since it mentions that by applying this technique, it achieves a correct classification with 91.50\% accuracy. On the other hand, work carried out by \cite{Chen} the Mr-ResNeXt model was implemented to address the problem of detecting Obstructive sleep apnea (OSA), which he mentions is one of the most frequent sleep problems, the work makes use of the Spectrum to convert the Time Series to 2D images, resulting in an accuracy of 91.91\%
+
+
+\subsection{Hypothesis.}
+It is feasible to implement models of the Artificial Intelligence  for the classification of EEG signals in ADHD subjects.
+
+\subsection{Objectives.}
+
+\begin{itemize}
+\item Acquire dataset of subjects diagnosed with ADHD.
+\item Pre-process data.
+\item Select models of Artificial Intelligence.
+\item Train-Evaluate and Test Model.
+\item Compare with existing works the feasibility of the present contribution.  
+\end{itemize}
+
+
+\pagebreak
+
+
+
+\index{Chapter 2 Pre-processing.}
+\section{Chapter 2 Pre-processing.}
+
+\subsection{Proposed Methodology.}
+The figure shows a flow diagram of the methodology implemented in this work. Each of the stages will be addressed in greater depth in the present document, a deeper description of the implemented database is made, then the steps applied for a pre-processing, the methodology implemented to convert Time Series to 2D images, the Deep Learning models, train validation and test of these models.\\
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=12cm,trim={0cm 4cm 0cm 2cm},clip]{diag_1}}
+\caption{Proposed Methodology.}
+\label{diag 1}
+\end{figure}
+
+The second methodology proposes a different approach, like the first methodology, the signals are filtered, the $\beta$ band is extracted, only 5 channels are used (C3, C4, Cz, Fz, Pz), the Absolute Power feature is extracted, in addition to the Standard Deviation , Variance, Entropy and Relative Power, this generates a data set that is used to train the Logistic Regression and Maximum Likelihood models.
+
+
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=14cm,trim={0cm 4cm 0cm 2cm},clip]{diag_4}}
+\caption{Proposed Methodology 2.}
+\label{diag 4}
+\end{figure}
+
+\pagebreak
+
+\subsection{Dataset.}
+In this work, the data set used is a set of EEG signals, these time series are made up of 60 people diagnosed with ADHD ( 9.62 $\pm$ 1.75 years) and 60 healthy control people ( 9.85 $\pm$ 1.77 years),\cite{Xarticle}
+ , correspond to 19 channels based on the 10-20 standard (Fz, Cz, Pz, C3, T3, C4, T4, Fp1, Fp2, F3, F4, F7, F8, P3, P4, T5, T6, O1, O2), with two reference electrodes A1, A2 placed on the earlobes. \cite{rzfh} 
+
+
+\subsection{Filtering.}
+
+Filtering can be done using EEGLAB in Matlab, for example, removing non-physiological artifacts, physiological artifacts, among others.\\
+
+It is necessary to add certain characteristics such as Sampling rate, in this case the 128Hz rate, in addition to adding the location of the respective channels, in order to have a clearer representation of the data.\\
+
+
+
+%\subsubsection{Import dataset.}
+%Access (.mat format): Run eeglab.m, next in the pop up window: file $\to$ import data $\to$ using EEGLAB functions and plugins $\to$ from ASCII / float file or Matlab array.\\
+
+%The sampling rate value is 128Hz (value dependent of the dataset), so, to put this value, access:
+%Edit $\to$ dataset info $\to$ Data sampling rate (Hz).
+
+%\subsubsection{Channel location.}
+%You need to access: Edit $\to$ channel location $\to$ (select option) ”Use MNI coordinates for the BEM Dipfit model ”$\to$ ok. Once “ok” is selected, the “Edit channel info – pop chanedit () ” it's necessary to select the .ced file, which contains the location of the channels, (this file depends on the repository, for example, for this particular case it is the document: Standard-10-20-Cap19new.ced, then select: Read location $\to$ (find the file) $\to$ (once selected) select the autodetect option and press "ok".
+
+%\subsubsection{Non-physiological artifacts.}
+%Among the non-physiological artifacts, there is that of the power supply, the first filter that is applied to the signals is a filter of 1 - 60 Hz, removing noise in the signal as shown in the figure \ref{fig 82}. 
+
+%Tools $\to$ Filter the data $\to$ Basic FIR filter (new, default).
+
+One of the non-physiological artifacts may include a 1-60 Hz filter to remove the embedded noise buried in the signal fabricated by the power supply as show on figure \ref{fig 82}
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=7cm,trim={0cm 17.5cm 0cm 1cm},clip]{AI82}}
+\caption{a) Unfiltered original signal. b) Signal after applying the 1-60 Hz filter.}
+\label{fig 82}
+\end{figure}
+
+
+%\subsubsection{Physiological artifacts.}
+The figure \ref{fig 83}, shows the parts that are removed by excess noise. \\
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=7cm,trim={0cm 17.5cm 0cm 1cm},clip]{AI83}}
+\caption{a) Signal selected for be removed. b) Signal after selected parts removed.}
+\label{fig 83}
+\end{figure}
+
+%\subsubsection{Save data.}
+%Once the necessary waves have been obtained, the dataset is saved: File $\to$ Export $\to$ data and ICA activity to text file.
+
+
+
+\subsection{EEG signals}
+The EEG signals can be decomposed into different frequency bands; delta, (0.5-4Hz), theta (4-8Hz), alpha (8-13), and beta (13-30), to obtain their respective band power filter by bandpass filters \cite{SADATNEZHAD20111956}.
+These features were obtained from the Fz, Pz, Cz, C3, and C4 channels, in addition statistical features such as standard deviation, variation and mean.\cite{Yag1}\\
+
+
+
+In statistics it is known that the measure of the variability of a set of numbers is the standard deviation, and is given by the equation:
+
+\begin{equation}
+\sigma = \sqrt{\frac{1}{N}\sum_{i=1}^N (x_i - \mu)^2} 
+\end{equation}
+
+Where $N$ is the number of elements in the data set $x_i$ the element at index $i$ and $\mu$ the mean given by
+
+\begin{equation}
+\mu = \frac{1}{N} \sum_{i = 1}^N x_i 
+\end{equation} 
+
+We know that the variance is the square of the standard deviation and is given by the equation:
+
+\begin{equation}
+\sigma^2 = \frac{1}{N}\sum_{i=1}^N (x_i - \mu)^2 
+\end{equation}
+
+The figure \ref{fig 102} shows two different signals from the same channel (Fz) from two different subjects, one from ADHD and the other from Control, we can observe a difference in the standard deviation.\\
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 18cm 0cm 2cm},clip]{AI102}}
+\caption{a) Signal of the Fz channel of the data set 109 Control b) Signal of the Fz channel of the data set v27 ADHD.}
+\label{fig 102}
+\end{figure}
+
+\subsubsection{Power Spectral Entropy}
+The spectral complexity can be quantify by power spectral entropy that is a information entropy of an uncertain system, assume a set of signals $X$, the value of $X$ is \citep{lz}
+
+\begin{equation}
+X = \{x_1,x_2,...,x_n\}   
+\end{equation}
+
+The corresponding probability is 
+\begin{equation}
+P = {p_1, p_2,...,p_n} 0 \leq p_i \leq 1, i = 1,2,...,n 
+\end{equation}
+
+Under consideration
+
+\begin{equation}
+\sum_{i=1}^n p_i = 1
+\end{equation}
+
+The information entropy of the system is given by
+
+\begin{equation}
+H = -\sum_{i=1}^n p_i ln p_i
+\end{equation}
+
+
+\subsubsection{Average Power.}
+The average power in $y(n)$ is
+
+\begin{equation}
+E \{ |y(n)^2 |\} = y_{y}(0) = \frac{1}{2\pi} \int_{-\pi}^\pi P_y (e^{jw}) dw
+\end{equation}
+
+then we have
+
+\begin{equation}
+E \{ |y(n)^2 |\} \approx \frac{\bigtriangleup w}{2 \pi} P_x (e^{jw_0})
+\end{equation}
+
+then, $P_x (e^{jw})$ may be viewed as a density function that describes how the power in $x(n)$ varies with $w$ \cite{sds}.\\
+
+%(pag 103).
+
+\subsubsection{Relative Power.}
+The relative power of its respective band given band / sum of power from 12 to 30 Hz is calculated by:
+
+\begin{equation}
+RP(f_1,f_2) = \frac{P(f_1,f_2)}{P(12,30)} 100\%
+\end{equation}
+
+where P (.) indicates power, RP (.) relative power, and f1, f2 indicate low and high frequency respectively \cite{bzl}.
+
+\subsubsection{Normalize data.}
+The max-min normalization is given  by:
+
+\begin{equation}
+X_{scaled} = \frac{x - min(x)}{max(x)-min(x)}
+\end{equation}
+
+
+\subsubsection{Data distribution.}
+In the figure \ref{fig 240}, the distribution of the characteristics extracted from the EEG signals is observed, these belong to the two different groups are ADHD and Control.
+%In  figure \ref{fig 240}, the distribution of the of Absolute Power characteristic extracted from the electroencephalogram signals is observed, it is important to mention that the data are normalized with the minimum and maximum technique.
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 16cm 0cm 0cm},clip]{AI217}}
+%\caption{}
+%\label{fig 217}
+%\end{figure}
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=13cm,trim={0cm 10cm 3cm 2cm},clip]{AI233}}
+\caption{a) Density distribution of Standard Deviation . b) Density distribution of Variance . c) Density distribution of Entropy. d) Density distribution of Absolute Power  . e) Density distribution of Relative Power.}
+\label{fig 240}
+\end{figure}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=10cm,trim={0cm 3cm 0cm 0cm},clip]{AI235}}
+%\caption{a)Normalized distribution of Relative Power. b)Normalized distribution of Absolute Power. c)Normalized distribution of Variance. d)Normalized distribution of Standard Deviation. e)Normalized distribution of Entropy.}
+%\label{fig 235}
+%\end{figure}
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 16cm 0cm 0cm},clip]{AI220}}
+%\caption{entropy}
+%\label{fig 220}
+%\end{figure}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 16cm 0cm 0cm},clip]{AI221}}
+%\caption{sd}
+%\label{fig 221}
+%\end{figure}
+
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 16cm 0cm 0cm},clip]{AI222}}
+%\caption{var}
+%\label{fig 222}
+%\end{figure}
+
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 16cm 0cm 0cm},clip]{AI223}}
+%\caption{AbsPow}
+%\label{fig 223}
+%\end{figure}
+
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 16cm 0cm 0cm},clip]{AI224}}
+%\caption{RelaPow}
+%\label{fig 224}
+%\end{figure}
+
+\subsection{Genetic Algorithm}
+The use of genetic algorithms has been successfully applied to solve different combinatorial problems, where it is investigated to find an approximation to the best solution \cite{QIN} \cite{abid}. This research has implemented a GA to find the characteristics that generate the best performance in the classification algorithm. The implemented chromosomes consist of ADHD and Control characteristics, through the components of this algorithm such as an Initial Population, followed by a Random Selection,  Crossover and Genetic Competition as an Elitism technique to ensure the best cromosomes are selected,  obtained a new generation of better solutions and finally repeating this process a given number of iterations in order to obtain an approximation to the possible best solutions.
+A combinatorial optimization problem can be solved by making an approximation with a genetic algorithm, in this work a simple algorithm is proposed.\\
+
+The problem is to find $x_1$ and $x_2$ such that we maximize the function $f(x)$ given by.
+
+\begin{equation}
+f(x) = x_1 - x_2
+\end{equation}
+
+where $x_1$ is the features of Control subjects and $x_2$ the features of ADHD subjects. 
+
+\subsubsection{Initial Population.}
+The possible number of solutions it’s given by 
+
+\begin{equation}
+Ps = \frac{1}{N_a} \sum_{i=1}^n x_{1i}
+\end{equation}
+
+Where $Na$ is the numbers of Control attributes per Chromosome, subsequently a Chromosome can be described as seen on equation \ref{eq ag1}
+
+\begin{equation}\label{eq ag1}
+F = [a_1,a_2,a_3,a_4,b_1,b_2,b_3,b_4] \text{ Where } a_i \in  x_1 \text{ and } b_j \in  x_2
+\end{equation}
+
+\subsubsection{Cross Over.}
+The cross over technique consist in for the two principal chromosome, create all possible combinations, evaluate it  and select the two best with out repeated values.\\
+
+
+$F_1 = [a_1,a_2,a_3,a_4,b_1,b_2,b_3,b_4]$ \\
+
+$F_2 = [a_5,a_6,a_7,a_8,b_5,b_6,b_7,b_8]$ \\
+
+$S_1 = [a_1,a_2,a_3,a_4,a_5,a_6,a_7,a_8]$\\
+
+$S_2 = [b_1,b_2,b_3,b_4,b_5,b_6,b_7,b_8]$\\
+
+
+After this, is necessary take $S_1$ , $S_2$ and  evaluate it then back a sort chromosome in decedent order, the first 4 of $S_1$ will be the best and the other 4 the worst, and appositive $S_2$ the first will be the worst and the  last the best, finally we take the best of them by selecting $B_1 , B_2$. 
+
+
+\IncMargin{1em}
+\begin{algorithm}
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+\Input{Data set.}
+\Output{Best attributes.}
+\BlankLine
+
+
+\emph{$  X2  \gets \{\} $}\;
+\BlankLine
+
+\emph{$  X  \gets InitialPopulation $}\;
+\BlankLine
+
+
+\emph{$ l  \gets length(InitialPopulation) $}\;
+\BlankLine
+
+
+\emph{$  Generations  \gets 100 $}\;
+\BlankLine
+
+\For{ $j  \to  Generations $ }{
+\For{ $ i  \to  l $ }{
+	
+	\emph{$F_1, F_2 \gets Selection(X)$}\;
+	\BlankLine
+	\emph{$S_1, S_2 \gets CrossOver(F_1, F_2)$}\;
+	\BlankLine
+	\emph{$B_1, B_2 \gets Competition(F_1, F_2,S_1, S_2)$}\;
+	\BlankLine
+	\emph{$ X_j \gets B_1, B_2 $}\;
+	\BlankLine
+	}
+	\BlankLine	
+\emph{$  X  \gets X2 $}\;
+\BlankLine
+	}
+\BlankLine	
+\emph{$  best_attributes  \gets X $}\;
+\BlankLine	
+	
+	\caption{Genetic Algorithm.}\label{imp}
+\end{algorithm}\DecMargin{1em}
+
+
+%\pagebreak
+
+
+
+%\pagebreak
+     
+
+
+
+
+
+%\subsection{Wavelet Transform.}
+
+
+%https://ataspinar.com/2018/12/21/a-guide-for-using-the-wavelet-transform-in-machine-learning/
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=5cm,trim={0cm 16cm 0 4cm},clip]{tab_c37}}
+%\caption{Previous work in the classification of EEG Signals and Wavelet.}
+%\label{tab 37}
+%\end{table}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=10cm,trim={0cm 13cm 0cm 0cm},clip]{AI98}}
+%\caption{Image a) represents a original signal, image b) represents cA signal, c) corresponds to cD signal, and  d)reconstructed signal.}
+%\label{fig 98}
+%\end{figure}
+
+%https://dsp.stackexchange.com/questions/29125/how-to-identify-and-differentiate-frequency-and-time-in-eeg-data-using-python/70867#70867
+
+\subsection{Continuous Wavelet Transformation.}
+
+
+If $x(t)$ is a EEG signal, t, then its CWT is defined as \cite{Gho} :
+
+\begin{equation}
+C(a,b) = \frac{1}{\sqrt{a}}\int_{-\infty}^\infty x(t) \Psi^* \frac{t-b}{a} dt
+\end{equation}
+
+where $a,b \in \mathbb{R}$, $a \neq 0$, and $\mathbb{R}$ is the set of real numbers, $a$ is the dilation parameter called 'scale' and $b$ is the location parameter of the wavelet, $\Psi(t)$ is the wavelet function called the "mother wavelet", superscript "*" denotes the complex conjugate of the function, and $\frac{1}{\sqrt{a}}$ is used to normalize the energy such stays at the same level for different values of a and b.\\
+
+Complex-valued wavelet Morlet function by:
+
+
+\begin{equation}
+\Psi(t) =  \pi^{-\frac{1}{4}} \mathnormal{e}^{\mathnormal{iw_0 t}} \mathnormal{e}^{-\frac{t^2}{2}}
+\end{equation}
+  
+Where $\Psi(t)$ is the wavelet function  that depends on a non dimensional time parametert t and i denotes the imaginary unit. this wavelet function forms two exponential functions modulating a Gaussian envelope of unit width, where the parameter $w_0$ is the non-dimensional frequency parameter.\\
+
+
+
+The figure \ref{fig 103} shows the Power Spectrum of the Control and ADHD subject v109, specifically of the Fz channel.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=7cm,trim={1cm 19cm 0cm 0cm},clip]{AI236}}
+\caption{a) CWT Power Spectrum Control. b) CWT Power Spectrum for ADHD patients.}
+\label{fig 103}
+\end{figure}
+
+
+
+
+%\subsection{Recurrent Plot (RP).}     
+%Recurrent Plot was first introduced as a diagnostic tool in 1980's by Jean Pierre, where he mentions that the information obtained with this technique, at that time, is amazing and is not easily obtained by other techniques \cite{JeanPierre}.\\
+
+%The  technique Recurrent Plot (RP) is a visualization tool that aims to explore the m-dimensional phase space trajectory through a 2D representation of its recurrences. The idea is found which points some trajectories return to a previous state \cite{hatami2017classification}. \\
+
+%In the paper Recurrent plots for the analysis of complex systems \cite{MARWAN2007237} give us the next equation\\
+
+%\begin{equation}
+%R_{i,j} (\varepsilon) = \Theta (\varepsilon - ||\overrightarrow{x_i} - \overrightarrow{x_j} || ) , i,j=,....,N
+%\end{equation}  
+
+%where N is the number of measured points $\overrightarrow{x_i}$, $\varepsilon$ is a threshold distance , $\Theta(.)$ the Heaviside function and $||.||$ is a norm 
+
+%\[ \Theta(x) =
+%  \begin{cases}
+%    0       & \quad \text{if } x<0 \\
+%    1  & \quad   \text{otherwise}
+%  \end{cases}
+%\]
+
+%Nota Español: https://www.kaggle.com/tigurius/recuplots-and-cnns-for-time-series-classification.
+
+%\subsection{Time Series to 2D Images PyRQA.}
+
+%In the process of converting time series to images, it was done with the help of the library PyRQA \cite{da} in Python in the GPU of Google Colab that often include Nvidia K80s, T4s, P4s, and P100s. Each image represents 1000 points in time in the Series Time.\\
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=10cm,trim={0cm 11cm 0cm 3cm},clip]{AI91}}
+%\caption{Image a) represents a stable signal, in this case, a sinusoidal signal, image b) represents a totally random signal, image c) corresponds to a person diagnosed with ADHD, and image d) corresponds to a control person.}
+%\label{fig 91}
+%\end{figure}
+
+
+
+%As mentioned above, the process of converting the Time Series to images was done with the help of PyRQA, in the pseudocode, it is observed how the code used is composed.\\
+
+
+%\IncMargin{1em}
+%\begin{algorithm}
+%\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+%\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+%\Input{Data Time Series.}
+%\Output{2D Images}
+%\BlankLine
+%\emph{$ pip install PyRQA$}\;
+%\BlankLine
+%\emph{$ Label \gets 'ADHD'$}\;
+%\BlankLine
+%\emph{$ NumPack \gets '73'$}\;
+%\BlankLine
+%\emph{$ p \gets NumberofElectrodes$}\;
+%\BlankLine
+
+
+%\For{ j  \(\ \to \)\ p  }{
+%	\emph{$2D\_image \gets GetPlot()$}\;
+%	\BlankLine
+%	}
+%\For{$count \gets P$}{
+%	\emph{$Complete\_Name \gets name1 + name2 + 'recurrent_plot.png'$}\;
+%	\BlankLine
+%	\emph{$Make\_Copy \gets '!cp' + Complete\_Name + ' "/content/drive/My Drive/ADHDControlDataset1000/test29/Control"'$}\;
+%	\BlankLine
+%	\emph{$Deleted\_File \gets '!rm' + Complete\_Name$}\;
+%	\BlankLine
+%	}	
+%	\caption{PyRQA.}\label{imp}
+%\end{algorithm}\DecMargin{1em}
+
+
+%\pagebreak
+
+
+
+
+
+%Links 
+%https://groups.google.com/g/pywavelets/c/Ld7UyPKpeTE/m/LpzALHM3AAAJ
+%https://ataspinar.com/2018/12/21/a-guide-for-using-the-wavelet-transform-in-machine-learning/
+
+
+
+
+%\subsection{Principal Component Analysis.}
+
+%\subsubsection{Mean.}
+
+%The mean of a random variable shows the location or the central tendency of the random variable.\\
+
+%\begin{equation}
+%\overline{X}  = \frac{1}{n} \sum_{i=n}^n X_i 
+%\end{equation}
+  
+%\subsubsection{Center of data.}
+%It is necessary to extract the mean of each column of data, then subtract the mean from the same column, this is defined by the equation (\ref{eq1}).\\
+
+%\begin{equation}\label{eq1}
+%\hat{X}  = X - \overline{X} 
+%\end{equation}
+
+%Where $\hat{X}$ is the centralized data, $X$ our data and $\overline{X}$ is the mean of the data  
+  
+%\subsubsection{Covariance matrix.}
+%The covariance matrix is defined by the equation \ref{eq2}
+
+%\begin{equation}\label{eq2}
+%C \hat{X}  = \frac{1}{n}\hat{X'} \hat{X} 
+%\end{equation}
+
+%The $ij^th$ element of C$\hat{X}$ is the dot product between the vector of the $i^th$ measurement type with the vector of the $j^th$ measirement type. We can summarize several properties  of C$\hat{X}$: (Jonathon Shlens, 2014)\\
+
+%\begin{itemize}
+%\item C$\hat{X}$ is a square symmetric m × m matrix
+%\item The diagonal terms of C$\hat{X}$ are the variance of particular measurement types 
+%\end{itemize}
+  
+%\subsubsection{Symmetric Power method.}
+%A technique for the approximation of eigenvalues, is Power Method, defined like an iterative method, this is defined by the equation \ref{eq4}, to approximate an eigenvalue and an associated eigenvector of the n × n matrix A given a nonzero vector x: (Burden R ,2005)\\
+
+%\begin{equation}\label{eq4}
+%x_{n+1}  = \frac{Ax_n}{||Ax_n||} 
+%\end{equation}
+
+
+
+%\subsubsection{Deflaction Techniques.}
+%After having obtained the first eigenvalues, there is a set of techniques to obtain the others, one of these is deflation techniques. (Burden R ,2005)\\
+
+%This consists of creating a new matrix B and is defined by the equation \ref{eq3} \\
+
+%\begin{equation}\label{eq3}
+%B  = A - \frac{\lambda_1}{|v_1|^2} v_1 * v_1 ^T
+%\end{equation}
+
+%Where $v_1$ is our first eigenvectors, $\lambda_1$ our first eigenvalue and A our data matrix
+
+%\IncMargin{1em}
+%\begin{algorithm}
+%\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+%\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+%\Input{Matriz A}
+%\Output{Eigenvectors}
+%\BlankLine
+% \emph{Genrations \(\ \to\)\ 100}\;  
+%\For{ K  \(\ \to \)\ n  }{
+%	\emph{$z_k = A q_{k-1}$}\;
+%	\emph{$q_k = z_k / |z_k|$}\;
+%	\BlankLine
+%	}
+%	\caption{Power Method}\label{algo_disjdecomp}
+%\end{algorithm}\DecMargin{1em}
+
+%\subsubsection{Principal Components.}
+%Once the eigenvectors are obtained, it is necessary to multiply it by our data and it is defined by the equation \ref{eq5}.
+
+%\begin{equation}\label{eq5}
+%PC = v'  \hat{X}
+%\end{equation}
+
+%Where v is a eigenvectors and X is a centralized data.
+
+
+%\IncMargin{1em}
+%\begin{algorithm}
+%\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+%\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+%\Input{Weigths}
+%\Output{Principal Components.}
+%\BlankLine
+% \emph{Genrations \(\ \to\)\ 100}\;  
+%\For{ K  \(\ \to \)\ n  }{
+%	\emph{$mean \gets mean \_ d()$}\;
+%	\emph{$covariance \_ matrix \gets X*X'$}\;
+%	\emph{$eigenvectors \gets Power\_ method()$}\;
+%	\% RFW : RowFeatureVector "traspose eigenvectors"\;
+%    \% RDA : RowDataAdjust "mean-ajusted data transpose"\;
+%  	\emph{$Principal \_ Components \gets RFW * RDA$}\;
+
+%	\BlankLine
+%	}
+%	\caption{Principal Component Analysis.}\label{PCA}
+%\end{algorithm}\DecMargin{1em}
+
+
+
+
+
+\pagebreak
+     
+
+
+
+
+
+
+
+\index{Chapter 3  Models.}
+\section{Chapter 3  Models.}
+\subsection{Deep Learning Models}
+The models implemented in this research are three: ResNet-152, ResNeXet-101, and GoogLeNet, these share certain characteristics, such as the execution environment, in this case, Google Collaboratory that offers a GPU (K80s, T4s, P4s, and P100s), They are all pre-trained models in Pytorch, they also share values such as learning rate = 0.001, batch size = 4, SGD Optimizer.
+
+
+\subsubsection{Pretrained networks.}
+PyTorch offers the most relevant pre-trained models, these models are pre-trained with the ImagenNet-12 dataset \cite{Eli}, this dataset is a very large one, approximately 14 million images maintained by Stanford University. (http://imagenet.stanford.edu).\\
+
+%If we look at this Dataset, it shows the objects that are found in it, such as vehicles, trees, structure, and so on, the point is that none is even similar to the images that are proposed in this work, then this puts the question of whether a pre-trained model is really the most convenient?
+
+
+\subsection{Residual Network 152 (ResNet-152).} 
+This is a model of 152 layers of deep \cite{he2015deep}, introduce the deep residual nets that is easier to optimize, this model won the first place on the ILSVRC 2015 classification task, has 11.3 billion Floating point operations per second (FLOPs), the figure \ref{ResNet}, is a representation of the ResNet-152 architecture.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=9cm,trim={0cm 1cm 0cm 0cm},clip]{AI88}}
+\caption{Topology ResNet-152.}
+\label{ResNet}
+\end{figure}
+
+
+\subsubsection{Residual learning.}
+
+It is necessary to consider $H(x)$ as the underlying mapping \cite{he2015deep}, of a set of blocks, if $x$ denotes the inputs of the first layers, an approximation of the residual function can be made by
+
+\begin{equation}
+H(x) - x
+\end{equation}
+
+This assuming that the inputs and outputs are of the same dimension. So instead of the stacked layers approaching $H(x)$, they can be allowed to approach a residual function.
+
+\begin{equation}
+F(x):= H(x) - x
+\end{equation}
+
+The original function is:
+\begin{equation}
+F(x) + x
+\end{equation}
+
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 14cm 0cm 0cm},clip]{AI97}}
+\caption{Residual learning: a building block.}
+\label{fig 97}
+\end{figure}
+
+
+
+
+\subsection{ResNeXt-101($101\_32x8d$).}
+This model has 101 deep layers \cite{xie2017aggregated} and exposes a new strategy of dimension that is called “cardinality”, which describes the size of the set of transformations, which is an important factor in the dimension of depth and width, this proposes that the increasing cardinality is more effective than going deeper or wider, this model won the second place in ILSVRC 2016 classification task.\\
+
+%This model has 101 deep layers \cite{xie2017aggregated} aggregated and exposes a new strategy of dimension that is called “cardinality”, which describes the size of the set of transformations, which is an important factor in the dimension of depth and width, this proposes that the increasing cardinality is more effective than going deeper or wider, this model won the second place in ILSVRC 2016 classification task.\\
+
+
+A family of Inception models that achieve convincing accuracy with low theoretical complexity is presented \cite{szegedy2016inceptionv4}  \cite{szegedy2014going} \cite{szegedy2015rethinking}. These models have an important common property called split-transform-marge strategy. In this model, the input is divided into fewer lower-dimension embeddings by 1x1 convolutions and transformed by a set of functional filters 3x3, 5x5 and so on, united by concatenation.\\
+
+The VGG-nets \cite{simonyan2015deep} propose stock building blocks for deep networks all in the same shape and ResNet \cite{he2015deep} stock modules of the same topology. The ResNeXt architecture adopts VGG/ResNets strategies.\\
+
+Figure \ref{fig 93}, shows a great similarity with the figure \ref{ResNet}, except for some differences. For instance, C = 32, this means, cardinality = 32, this can be seen in greater detail in the figure \ref{fig 94}, in addition to showing a difference in the input and output channels, these being greater than those of the ResNet-152 and the difference in depth that one has 152 layers whilst the ResNeXt-101.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=9cm,trim={0cm 1cm 0cm 0cm},clip]{AI93}}
+\caption{Topology ResNeXt-101.}
+\label{fig 93}
+\end{figure}
+
+\subsubsection{Inception model}
+As mentioned above, cardinality = 32, means that we have a parallel distribution of 32 paths as seen in figure \ref{fig 94} section c), we also observe that the number of channels is 8, as its name mentions (ResNeXt101 (101$\_$32x8d) ) is a multiplication of 8x32 = 256.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=9cm,trim={0cm 1cm 0cm 0cm},clip]{AI94}}
+\caption{a) Block from ResNet-152, b) Block from ResNeXt-101 c) Parallel ResNeXt-101.}
+\label{fig 94}
+\end{figure}
+
+\subsection{GoogLeNet}
+The last model is the GoogLeNet \cite{szegedy2014going} and is a  pre-trained modle in Pytorch like the ones seen in the last section with learning rate =  0.001, batch size = 32 , SGD optimizer,  in Google Colab that often include GPU Nvidia, K80s, T4s, P4s and P100s.\\
+
+
+GoogLeNet is a 22 layers deep network, the complete architecture can be seen in greater detail in \cite{szegedy2014going} , but one of the characteristic features of this neural network is the use of Inception module like the one observed in the figure \ref{fig 110}.\\
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=6cm,trim={0cm 16cm 0cm 0cm},clip]{AI110}}
+\caption{a) Inception module, naive version , b) Inception module with dimension reductions .}
+\label{fig 110}
+\end{figure}
+
+
+The architecture GoogleNet is composed of 9 different inceptions modules, it also shows us that certain datasets are a bit tricky, this is of great help when implementing this model in our dataset as the power spectrum images, in some cases it is difficult to visually recognize the difference \cite{szegedy2014going}.\\
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=12cm,trim={0cm 2cm 0cm 0cm},clip]{AI113}}
+%\caption{GoogLeNet Part3.}
+%\label{fig 113}
+%\end{figure}
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=12cm,trim={0cm 2cm 0cm 0cm},clip]{AI112}}
+%\caption{GoogLeNet Part2.}
+%\label{fig 112}
+%\end{figure}
+
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=12cm,trim={0cm 2cm 0cm 0cm},clip]{AI111}}
+\caption{GoogLeNet Part1 .}
+\label{fig 111}
+\end{figure}
+
+
+%\subsubsection{Data Normalization.}
+%For a better performance of a neural network it is necessary to normalize the input vectors to the model, Z-Score is a normalization technique that is given by the equation \ref{eq3}.\\
+
+%\begin{equation}\label{eq3}
+%Z = (X - \mu)/\sigma 
+%\end{equation}
+
+
+%where $\mu$ is the mean of the vector and $\sigma$ the standard deviation.
+%\subsubsection{The Rectified Linear Unit (ReLU).}
+%The Rectified Linear Unit (ReLU) \cite{rag} is one of the functions that  most commonly is used and is given by the equation
+
+
+%\begin{equation}
+%a_{ReLU} (t) = max(0,t) 
+%\end{equation}   
+
+
+%\begin{equation}
+%a'_{ReLU} (t) = ln(1+e^x) 
+%\end{equation}   
+
+%Nota Español: En este mismo libro  Convolutional Neural Networks in Visual Computig by Ragav Venkatesan pag 84 menciona una function de activación llamada Maxout (Goodfellow et al., 2013),es una interesante función de activación y menciona que aún no es una función suficientemente comprendida.   
+
+
+
+%\subsubsection{Softmax output layer.}
+%
+%\subsubsection{Logistic or sigmoid.}
+
+
+%\subsubsection{Sigmoid output layer and binary cross entropy.}
+%When the problems is a problem about a binary classification \cite{cmb}, that means for the case of two classes. The posterior probability for class $C_1$ can be written by: 
+
+%\begin{equation}
+%p(C_1|x) = \frac{p(x|C_1)p(C_1)}{p(x|C_1) + p(x|C_1)p(C_1) + p(x|C_2)p(C_2)}= \frac{1}{1+exp(-a)} = \sigma(a)
+%\end{equation}  
+
+%where we defined 
+
+%\begin{equation}
+%a = ln \frac{p(x|C_1)p(C_1)}{p(x|C_2)p(C_2)}
+%\end{equation} 
+
+%then $\sigma(a)$ is the logistic sigmoid function defined by
+ 
+
+%\begin{equation}
+%\sigma(a) = \frac{1}{1+exp(-a)}
+%\end{equation} 
+
+
+%\IncMargin{1em}
+%\begin{algorithm}
+%\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+%\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+%\Input{x}
+%\Output{$y_0$}
+%\BlankLine
+%\emph{$ count  \gets 0$}\;
+%\BlankLine
+%\emph{$ P \gets Patience$}\;
+%\BlankLine
+%\emph{$ j \gets 0$}\;
+%\BlankLine
+
+
+%	\caption{Sigmoid Function.}\label{imp}
+%\end{algorithm}\DecMargin{1em}
+%\pagebreak
+
+
+
+%In the book tree based Convolutional Neural Networks by Lili Mou say that in a binary case BCE could use with sigmoid output function \\
+
+%Notas Español : Es necesario profundizar en el estudio de sigmoid output layer y BCE, ya que en las arquitecturas se hace uso de softmax output y BCE.\\
+
+%Entonces sabemos que la salida de sigmoid es la probabilidad de una variable dependiente de otra.  
+
+
+%\subsubsection{Early Stopping.}
+%It is important to think about Overfitting, and techniques to avoid it, one is Early Stopping, which seeks to find a global minimum.\\
+ 
+%In the figure \ref{Losses}, on the left side is the result applying own Binary Crosss Entropy function, and on the right side the loss obtained with the Pytorch BCNLoss function.\\
+
+%With blue lost from training and line color orange validation.\\
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=5cm,trim={0cm 16cm 0cm 1cm},clip]{AI116}}
+%\caption{a) Loss with BCN Loss Function  b) Loss with own function.}
+%\label{fig 116}
+%\end{figure}
+
+%Notas Español : En la figura Losses, es necesario agregar un Plot en mejores condiciones, esto quiere decir, agregar nombre a el plot, nombre de los ejes, además de definir el nombre de la linea punteada, hacer la correcta referencia a optimización.\\    
+
+%\pagebreak
+
+%In the pseudocode \ref{imp}, the structure of the code for early stopping is observed, with a Patience of 5.
+
+%\IncMargin{1em}
+%\begin{algorithm}
+%\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+%\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+%\Input{Loss}
+%\Output{$y_0$}
+%\BlankLine
+%\emph{$ count  \gets 0$}\;
+%\BlankLine
+%\emph{$ P \gets Patience$}\;
+%\BlankLine
+%\emph{$ j \gets 0$}\;
+%\BlankLine
+
+%\While{ j  \(\ \to \)\ P  }{
+%	\emph{$v \gets Actual\_loss$}\;
+%	\BlankLine
+%	\emph{$v' \gets Last\_loss$}\;
+%	\BlankLine
+%	\If{$v<v'$}{
+%	\emph{$v' \gets Last \_ loss P - j$}\;
+%	\emph{$ count  \gets count + 1$}\;
+%	\emph{$j \gets j + 1$}\;
+%	}
+%	\Else{
+%	\emph{$j \gets 6$}\;
+%	}
+%	\BlankLine
+%	}
+%\If{$count \gets P$}{
+%	\emph{$break$}\;
+%	}	
+%	\caption{Early Stopping.}\label{imp}
+%\end{algorithm}\DecMargin{1em}
+
+
+%\pagebreak
+
+
+%\subsubsection{Sofmax.}
+%The figure \ref{Losses} show that loss does not decrease more approximately before 60 epochs, in the table \ref{tab16}, the %results of the training and validation of the MLP with 60 epochs are observed.
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=4cm,trim={0cm 21cm 0 3.5cm},clip]{tab_c16}}
+%\caption{MLP without and with early stopping.}
+%\label{tab16}
+%\end{table}
+
+
+%Notas Español : Se empezaron a hacer las pruebas, el algoritmo funciona, surgen dudas sobre la parte de train, validation and test.  
+
+%\subsubsection{Binary Cross Entropy.}
+%Binary Cross Entropy could use when is a binary classification problem given by
+
+%\begin{equation}
+%H(p,q)  \triangleq - \sum_k p_k log (q_k)
+%\end{equation}
+
+%where $\triangleq$ means "equal by definition", $q_k$ is or predicted value and $p_k$ our correspondent label. \\ 
+
+%Notas Español : (esta ecuación proviene del libto machine learning a probabilistic perspective)
+
+
+%important video in this topic
+%https://www.youtube.com/watch?v=7q7E91pHoW4
+%\subsubsection{Accuracy Function.}
+%For the accuracy in the next model we use a probabilistic Accuracy that mean if the output of the sigmoid function it's bigger than 0.5 the value come 1.
+
+
+
+%\IncMargin{1em}
+%\begin{algorithm}
+%\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+%\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+%\Input{yTrue, yProb}
+%\Output{$y_0$}
+%\BlankLine
+%\emph{$ len  \gets size\_of\_yProb$}\;
+%\BlankLine
+%\emph{$ Count \gets $}\;
+%\BlankLine
+%\emph{$ i \gets 0$}\;
+%\BlankLine
+
+%\For{$ i \to len$}{
+%\If{$yProb > 0.5$}{
+%	\emph{$yProbCount(i) \gets True$}\;
+%\Else{
+%\emph{$yProbCount(i) \gets False$}\;
+%}	
+%	}
+
+%	}
+
+%\BlankLine
+
+%\For{$ j \to len$}{
+%\If{$yProbCount == yTrue$}{
+%	\emph{$Count \gets Count + 1$}\;
+%	}
+
+%	}
+	
+%\BlankLine	
+%\emph{$y_0 \gets Count/len$}\;
+
+
+%	\caption{Accuracy Function.}\label{AF}
+%\end{algorithm}\DecMargin{1em}
+%\pagebreak
+
+
+
+%In the book Machine Learning A Probabilistic Perspective by Kevin P. Murphy say, if we have a porbabilistica output, we can compute, a best guess of the label by the equation \ref{eq2}
+%\begin{equation}\label{eq2}
+%\hat{y} = \hat{f}(x) = argmax_{c=1} ^c p(y = c|x,D)
+%\end{equation}   
+%That was know like MAP estimation (MAP stands for maximum a posteriori).
+%\pagebreak
+
+
+
+
+
+
+%\subsubsection{Kernels and Filters.}
+%In the book advanced Applied Deep Learning by Umberto Michelucci say that usually filters are also called kernels,
+%for example the next kernels that help to detect horizontal edges.\\
+
+%\begin{equation}
+%k_{H} = 
+% \begin{pmatrix}
+%  1 & 1 & 1\\
+%  0 & 0 & 0 \\
+% -1 & -1 & -1\\
+% \end{pmatrix}
+%\end{equation}
+
+%Nota Español: Es necesario revisar los tamaños de kernels y buscar la documentación de los mismos en Pytorch, además de la discordancia de usar un tensor [60,1,19], en 1D convolution en Pytorch. tomando esto en cuenta, se menciona tamaño de filtro = [128,256,128] y tamaño de kernel = [8,5,3], esta aseveración debe ser erronea.   
+
+%\subsubsection{Stride.}
+%In the book advanced Applied Deep Learning by Umberto Michelucci say that that.  
+%if we look at the example of kernels in the matrix \ref{m1}, where new matrices are generated in this case $A_1, A_2 ... A_n$, the step we take per column and row is 1, this means that we advance one column to the right and then one row down, this is called Stride and is indicated by s.\\
+
+%For example s = 2 means that we will move the generation of our new matrices two columns to the right and two rows down at each step.\\
+
+
+%\subsubsection{Convolution.}
+%In the book advanced Applied Deep Learning by Umberto Michelucci say a convolutions is done between two tensor, indicated by the * operator for example two matrix a y k of 3x3 given by:
+
+  
+
+%\begin{align}
+% \begin{pmatrix}
+%  a_{1,1} & a_{1,2} & a_{1,3}\\
+%  a_{2,1} & a_{2,2} & a_{2,3} \\
+%  a_{3,1} & a_{3,2} & a_{3,3}\\
+% \end{pmatrix}
+%&
+%*
+% \begin{pmatrix}
+%  k_{1,1} & k_{1,2} & k_{1,3}\\
+%  k_{2,1} & k_{2,2} & k_{2,3} \\
+%  k_{3,1} & k_{3,2}&  k_{3,3}\\
+% \end{pmatrix}
+% = \sum_{i=1}^n \sum_{j=1}^n a_{ij}k_{ij}
+%\end{align}
+
+
+%when we have an input matrix of different size than the kernel, for example a matrix A 4x4  and kernel 3x3.
+%
+%\begin{align}\label{m1}
+%A = 
+% \begin{pmatrix}
+%  a_{1,1} & a_{1,2} & a_{1,3} & a_{1,4}\\
+%  a_{2,1} & a_{2,2} & a_{2,3} & a_{2,4}\\
+%  a_{3,1} & a_{3,2} & a_{3,3} & a_{3,4}\\
+%  a_{3,1} & a_{3,2} & a_{3,3} & a_{4,4}\\
+% \end{pmatrix}
+%&
+%* k=
+% \begin{pmatrix}
+%  k_{1,1} & k_{1,2} & k_{1,3}\\
+%  k_{2,1} & k_{2,2} & k_{2,3} \\
+%  k_{3,1} & k_{3,2}&  k_{3,3}\\
+% \end{pmatrix}
+%\end{align}
+
+%Then we would have multiplications generating $A_1 * k = B_1 $ \\
+
+%$B_1 = A_1 * k = a_{11}k_{11} + a_{12}k_{12} + a_{13}k_{13} + a_{21}k_{21} + a_{22}k_{22} + a_{23}k_{23} + a_{31}k_{31} 
+%+ a_{32}k_{32} + a_{33}k_{33}
+%$\\
+
+
+%$B_2 = A_2 * k = a_{12}k_{11} + a_{13}k_{12} + a_{14}k_{13} + a_{22}k_{21} + a_{23}k_{22} + a_{24}k_{23} + a_{32}k_{31} 
+%+ a_{33}k_{32} + a_{34}k_{33}
+%$\\
+
+
+%$B_3 = A_3 * k = a_{21}k_{11} + a_{22}k_{12} + a_{23}k_{13} + a_{31}k_{21} + a_{32}k_{22} + a_{33}k_{23} + a_{41}k_{31} 
+%+ a_{42}k_{32} + a_{43}k_{33}
+%$\\
+
+
+%$B_4 = A_4 * k = a_{22}k_{11} + a_{23}k_{12} + a_{24}k_{13} + a_{32}k_{21} + a_{33}k_{22} + a_{34}k_{23} + a_{42}k_{31} 
+%+ a_{43}k_{32} + a_{44}k_{33}
+%$\\
+
+%This concolution operations will give us the matrix B 
+
+%\begin{align}
+%B = 
+% \begin{pmatrix}
+%  B_1 & B_2 \\
+%  B_3 & B_4 \\
+% \end{pmatrix}
+%\end{align}
+
+%Nota Español:En el libro Convolutional Neurla Networks in Visual Computing by Regav Venkatesan, hace referencia a el trabajo de Yan LeCun 1989, entonces es necesario revisar el paper, ya que no es la primera vez que noto que en un libro de convoluciones hacen esta misma referencia. 
+
+%\subsubsection{Pooling layer.}
+%Nota Español: Se encuentra una buena explicación en Advanced Applied Deep Learning by Umberto Michelucci pag 69. \\ 
+
+   
+
+%Nota Español: Se entiende que max pooling toma el numero mayor de la matriz y lo pasa a la siguiente y Average pooling toma la media de la matriz y la pasa a la siguiente. \\
+
+%Nota Español: Con lo aprendido en la secci[on anterior se puede modificar los códigos, además de las entradas, pero es necesario seguir trabajando, por ejemplo, estamos usando 1d convolutionals, en base a lo pasado podemos pasar a 2d convolution.
+
+
+\subsection{Model training, validation and testing.}
+In the table \ref{tab 38}, the different data sets are shown, which correspond to different individuals, column 1 shows the name of the data set used, column 2 the corresponding channel, and column 3 shows the section in which was implemented, this means training, validation or testing, the table, shows only data from people with ADHD.\\
+
+It is important to mention that for this work two different models are implemented, the table shown below is used for both models.\\
+
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=14cm,trim={0cm 4cm 0 4cm},clip]{tab_c38}}
+\caption{Data sets used in the train, validation, and test of subjects diagnosed with ADHD.}
+\label{tab 38}
+\end{table}
+
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=16cm,trim={0cm 7cm 0 4cm},clip]{tab_c20}}
+%\caption{Data sets used in the train, validation, and test of subjects diagnosed with ADHD.}
+%\label{tab 20}
+%\end{table}
+
+
+Similar to the table \ref{tab 38}, the table \ref{tab 39} shows similar columns, the difference is that the latter shows the data used from Control subjects.
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=15cm,trim={0cm %10cm 0 4cm},clip]{tab_c21}}
+%\caption{Data sets used in the train, validation, and %test of Control subjects.}
+%\label{tab 21}
+%\end{table}
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=14cm,trim={0cm 4cm 0 4cm},clip]{tab_c39}}
+\caption{Data set used in the training, validation, and test of Control subjects.}
+\label{tab 39}
+\end{table}
+
+\subsubsection{Error metrics.}
+
+The performance of the models was evaluated using the corresponding metrics;
+
+Accuracy is the fraction of correct predictions, it is formally given by equation \ref{eq1}.
+
+\begin{equation}\label{eq1}
+Accuracy = \frac{tp+tn}{tp+tn+fp+fn}
+\end{equation}
+
+
+Precision is the fraction of relevant predictions between the retrieved predictions given by equation \ref{eq2}.
+
+\begin{equation}\label{eq2}
+Precision = \frac{tp}{tp+fp}
+\end{equation}
+
+Recall (sensitivity) is the fraction of relevant predictions that were retrieved (equation \ref{eq3}).
+
+\begin{equation}\label{eq3}
+Recall = \frac{tp}{tp+fn}
+\end{equation}
+
+F1 is the harmonic mean of precision and recall (equation \ref{eq4}).
+
+
+\begin{equation}\label{eq4}
+F1 = (2) \frac{(Precision)(Recall)}{Precision+Recall}
+\end{equation}
+
+%\begin{equation}\label{eq5}
+%F2 = (1+2^2) \frac{(Precision)(Recall)}{(1+2^2)(Precision+Recall)}
+%\end{equation}
+
+%After obtaining these values we need to obtain the values of F-score \\
+
+%\begin{equation}
+%Accuracy = \frac{tp+tn}{tp+tn+fp+fn}
+%\end{equation}
+
+
+%El calculo de la precisión viene dada por la ecuación:
+%The calculation of the precision is given by the equation:
+
+%\begin{equation}
+%Precision = \frac{tp}{tp+fp}
+%\end{equation}
+
+%and the Recall by:
+
+
+%\begin{equation}
+%Recall = \frac{tp}{tp+fn}
+%\end{equation}
+
+%Now we can calculate F1-score is given by the equation:
+
+%\begin{equation}
+%F1 = 2 \frac{Precision x Recall}{Precision + Recall}
+%\end{equation}
+
+
+and F2-score that is more used in the area of healthcare is given by:
+
+\begin{equation}
+F2 = (1+2^2) \frac{Precision x Recall}{(1+2^2)(Precision + Recall)}
+\end{equation}
+
+
+%\subsection{K-fold Cross-Validation}
+%As an evaluation metric, it is intended to implement k-folds with k = 5 separating the dataset into  train, validation, and tests like the show in figure \ref{fig 114}.
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=6cm,trim={0cm 16cm 0cm 1cm},clip]{AI114}}
+%\caption{K-folds.}
+%\label{fig 114}
+%\end{figure}
+
+
+
+%links for k folds
+
+%https://discuss.pytorch.org/t/what-is-the-best-way-to-apply-k-fold-cross-validation-in-cnn/15035/25
+%https://ogunlao.github.io/2020/05/08/cross-validation-and-reproducibility-in-neural-networks.html
+%https://www.kaggle.com/ogunlao/crossvalidation-for-cassava-disease-classification
+
+
+
+     
+
+
+%Nota Español: https://www.kaggle.com/tigurius/recuplots-and-cnns-for-time-series-classification.
+
+
+
+\subsection{Logistic Regression.}
+The Logistic Regression model we use the logistic function that is given by the equation \cite{gjd}.
+
+\begin{equation}
+p(X) = \frac{e^{\beta_0 + \beta_1 X} }{1 + e^{\beta_0 + \beta_1 X}}
+\end{equation}
+
+
+
+
+\subsubsection{Multiple Logistic Regression.}
+
+In this work it is intended to make a binary classification using multiple predictions, taking this into account, then we can define a multiple regression by the equation \cite{gjd}
+
+\begin{equation}
+log(\frac{p(X)}{1-p(X)}) = \beta_0 + \beta_1 X_1 + ..... + \beta_p X_p
+\end{equation}
+
+where $X = (X_1,....,X_p)$ are p predictors, then the last equation can be written as 
+
+\begin{equation}
+p(X) = \frac{e^{\beta_0 + \beta_1 X_1 +....+\beta_p X_p}}{1 + e^{\beta_0 + \beta_1 X_1 +....+\beta_p X_p}}
+\end{equation} 
+
+
+
+
+\subsection{Maximum likelihood.}
+The approach to data analysis is based on the mean of the distribution represented in equation \ref{eq1}, which is the standard form of the Gaussian distribution \cite{mb}.
+
+%El enfoque para el análisis de los datos se plantea partiendo de la media de la distribución que se representa en la ecuación \ref{eq1}, que es la forma estándar de la distribución Gaussiana \cite{mb}. 
+
+\begin{equation}\label{eq1}
+P(x) = \frac{1}{\sqrt{2 \pi \sigma ^2}} e^{\frac{(x-\mu)^2}{2\sigma^2}}
+\end{equation}
+
+Where $P(x)$ is the probability of occurrence of the variable n, $\sigma$ is the standard deviation $\sigma^2$ is the variance, $\mu$ is the mean.
+
+%Donde P(x) es la la probabilidad de ocurrencia de la variable n, $\sigma$ es la desviación estándar  $\sigma^2$ es la varianza, $\mu$ es la media.\\
+
+
+The method is based on the postulate that the values of the unknown parameters are those that produce a maximum probability of observing the measured data. Assuming the measurements are independent of each other, the quantity:
+
+%El método se basa en el postulado de que los valores de los parámetros desconocidos son aquellos que producen una probabilidad máxima de observar los datos medidos. Suponiendo que las mediciones son independientes entre sí, la cantidad:  \\
+  
+  
+\begin{equation}\label{eq2}
+P =  \prod_{i=1}^N P(x_{i}) = \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}} e^{\frac{(x_{i}-\mu^2)}{2\sigma^2}} 
+\end{equation}
+  
+ 
+The equation \ref{eq2} can also be expressed as follows: 
+%La ecuación \ref{eq2}, también se puede expresar de la siguiente manera:
+ 
+ 
+\begin{equation}\label{eq3}
+L(\mu, \sigma| x_{i},x_{2},...,x_{n}) = L(\mu, \sigma|x_{i})x,....x L(\mu, \sigma|x_{n})
+\end{equation}
+    
+Substituting the equation \ref{eq1} we obtain:
+%Sustituyendo la ecuación \ref{eq1} se obtiene:
+     
+\begin{equation}\label{eq4}
+\frac{1}{\sqrt{2 \pi \sigma ^2}} e^{\frac{(x-\mu)^2}{2\sigma^2}} x ,....., x  \frac{1}{\sqrt{2 \pi \sigma ^2}} e^{\frac{(x-\mu)^2}{2\sigma^2}}
+\end{equation}
+
+Applying ln to the equation \ref{eq3} and \ref{eq4}
+%Aplicando ln en la ecuación \ref{eq3} y \ref{eq4}
+
+\begin{equation}\label{eq5}
+ ln(L(\mu, \sigma|x_{i})x,....x L(\mu, \sigma|x_{n})) = ln[\frac{1}{\sqrt{2 \pi \sigma ^2}} e^{\frac{(x-\mu)^2}{2\sigma^2}} x ,....., x  \frac{1}{\sqrt{2 \pi \sigma ^2}} e^{\frac{(x-\mu)^2}{2\sigma^2}}]
+\end{equation} 
+
+Once ln is applied, we can express the equation \ref{eq5}, as follows. \\
+%Una vez aplicado el ln , podemos expresar la ecuación \ref{eq5}, de la siguiente manera.\\
+
+\begin{equation}
+-\frac{1}{2}ln(2\pi) - ln(\sigma)-\frac{(x_{i}-\mu)^2}{2\sigma^2} 
+\end{equation} 
+
+then
+%entonces.
+
+\begin{equation}
+-\frac{1}{2}ln(2\pi) - ln(\sigma)-\frac{(x_{i}-\mu)^2}{2\sigma^2} -.... -\frac{1}{2}ln(2\pi) - ln(\sigma)-\frac{(x_{i}-\mu)^2}{2\sigma^2}
+\end{equation} 
+
+simplifying we obtain.
+%simplificando obtenemos.
+ 
+\begin{equation}
+-\frac{n}{2}ln(2\pi) - nln(\sigma)-\frac{(x_{1}-\mu)^2}{2\sigma^2} -.... -\frac{(x_{n}-\mu)^2}{2\sigma^2} 
+\end{equation} 
+
+
+To find the maximum Likelihood it is necessary to find its derivative where the slope is zero.
+%Para encontrar el máximo Likelihood es necesario encontrar la derivada del mismo donde la pendiente es cero.
+
+\begin{equation}\label{eq8}
+-\frac{\partial}{\partial \mu}ln[L(\mu, \sigma|x_{1},....,x_{n})] 
+\end{equation} 
+
+%\begin{figure}[H]
+%	\centerline{\adjincludegraphics[height=4cm,trim={0cm 19cm 1cm 1cm},clip]{A_3}}
+%  \caption{Likelihood respecto $\mu$}
+%  \label{fig 3}
+%\end{figure}
+
+Then applying the derivative to the equation \ref{eq8} we obtain:
+%Entonces aplicando la derivada a la ecuación \ref{eq8} obtenemos:
+
+\begin{equation}\label{eq6}
+\frac{1}{\sigma^2}[(x_{1} + ,...., + x_{n}) -n \mu] 
+\end{equation} 
+  
+
+Now it is necessary to obtain the derivative of Likelihood with respect to sigma.
+%Ahora es necesario obtener la derivada de Likelihood con respecto a sigma.  
+
+\begin{equation}
+-\frac{\partial}{\partial \sigma}ln[L(\mu, \sigma|x_{1},....,x_{n})] 
+\end{equation}   
+  
+Applying the derivative and simplifying we obtain.
+%Aplicando la derivada y simplificando obtenemos.
+  
+\begin{equation}\label{eq7}
+\frac{n}{\sigma} + \frac{1}{\sigma^3}[(x_{1}-\mu)+,....,+ (x_{n} - \mu)^2] 
+\end{equation}   
+  	
+
+
+%\begin{figure}[H]
+%	\centerline{\adjincludegraphics[height=4cm,trim={0cm 18.5cm 1cm 1cm},clip]{A_4}}
+%  \caption{Likelihood respecto $\sigma$}
+%  \label{fig 4}
+%\end{figure}
+  
+
+So knowing that the maximum Likelihood is when the slope is zero, we set the equations \ref{eq6}, \ref{eq7} equal:  
+%Entonces sabiendo que el máximo Likelihood es cuando la pendiente es cero, igualamos las ecuación \ref{eq6},\ref{eq7}:
+
+\begin{equation}
+0 = \frac{1}{\sigma^2}[(x_{1} + ,...., + x_{n}) -n \mu] 
+\end{equation} 
+  
+  
+\begin{equation}
+0 = \frac{n}{\sigma} + \frac{1}{\sigma^3}[(x_{1}-\mu)+,....,+ (x_{n} - \mu)^2] 
+\end{equation}   
+  	
+
+So by solving the equation, we have that the maximum Likelihood estimated by $ \mu $ is the mean of the data.
+%Entonces despejando la ecuación, tenemos que el máximo Likelihood estimado por $\mu$ es la media de los datos.
+
+\begin{equation}
+\mu = \frac{x_{1}+...+x_{n}}{n} 
+\end{equation}   
+  	
+Solving for the equation, we have the maximum Likelihood estimate given by $ \sigma $ is the standard derivation of the data.
+%Despejando la ecuación, tenemos la estimación máxima Likelihood dada por $\sigma$ es la derivación estándar  de los datos.    
+	
+\begin{equation}
+\sigma = \sqrt(\frac{(x_{1}-\mu)^2 +...+ (x_{n} - \mu)^2}{n}) 
+\end{equation}   
+
+
+
+
+
+\IncMargin{1em}
+\begin{algorithm}
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+\Input{train-test Data}
+\Output{probability of occurrence}
+\BlankLine
+
+
+%prob_oc1<-maxlikehood(train1$AbsolutePower,test$AbsolutePower) 
+
+
+
+
+\emph{$  maxlikehood  \gets function(train,test)\{ $}\
+\BlankLine
+
+
+\emph{$ \quad \quad x_i  \gets train $}\
+\BlankLine
+
+
+\emph{$ \quad \quad y_i  \gets test $}\
+\BlankLine
+
+\emph{$ \quad \quad n  \gets length(x) $}\
+\BlankLine
+
+
+\emph{$ \quad \quad  \mu  \gets \frac{1}{n}\sum_{i=1}^n x_i $}\
+\BlankLine
+
+
+\emph{$ \quad \quad  \sigma  \gets \sqrt{\sum_{i=1}^n (x_i - m)/n} $}\
+\BlankLine
+
+\emph{$ \quad \quad  p(y_i)  \gets  \frac{1}{\sqrt{2 \pi \sigma^2}} e^{\frac{y_i - \mu ^2}{2 \sigma^2}} $}\
+\BlankLine
+\emph{$  \} $}\
+\BlankLine
+
+
+
+
+\emph{$  prob\_oc  \gets maxlikelihood(train,test)  $}\
+\BlankLine
+
+	
+	\caption{Maximum Likelihood.}\label{imp}
+\end{algorithm}\DecMargin{1em}
+
+
+
+
+
+
+
+
+
+
+
+
+\pagebreak
+
+
+
+
+
+\index{Chapter 4 Results.}
+\section{Chapter 4 Results.}
+
+\subsection{Results ResNet-152}
+The first model to be trained, evaluated and tested, is the ResNet-152 model, in the table \ref{tab 40}, the values obtained by different types of tests, both Control and ADHD, are observed.\\
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 17cm 0 4cm},clip]{tab_c40}}
+\caption{Results of test ResNet-152 }
+\label{tab 40}
+\end{table}
+
+The figure \ref{fig 105} shows the confusion matrix of the results obtained, which can be seen in the table \ref{tab 40}, in this way it is clearer to have a visualization of the results.\\
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 19cm 0cm 1cm},clip]{AI105}}
+\caption{Confusion Matrix of ResNet-152}
+\label{fig 105}
+\end{figure}
+
+
+%As can be seen in the table \ref{tab 19}, shows the first approach to the results obtained using different individuals, for this first approach, the first individuals diagnosed with ADHD are used, we can see 6 columns, the first one shows the name of the dataset, the second shows the loss of the model, the third the accuracy, the label corresponds to people with ADHD, the fourth, shows the termination of 26, 27, 28, 29, this represents the training version of the model, for example, the model with completion 26 has a smaller number of training epochs and 29 the maximum number of training, approximately everyone has 20 epochs and finally the number of tests.\\
+
+%This first approach to testing the models is relevant, in an experimentation process, this has the purpose of verifying or looking for different results in different training stages of the first ResNet-152 model, it is important to mention the concept of early stopping.\\
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=12cm,trim={0cm 10cm 0 4cm},clip]{tab_c19}}
+%\caption{Acuraccy-Loss by test}
+%\label{tab 19}
+%\end{table}
+
+%In the table \ref{tab 24}, the best results are observed in some of the different tests, starting from these first results, it is intended to find better results starting from looking for better parameters for the model.
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=10cm,trim={0cm 10cm 0 4cm},clip]{tab_c24}}
+%\caption{Best test.}
+%\label{tab 24}
+%\end{table}
+
+%In the table \ref{tab 25} we observe, the result of 8 different subjects, in addition to an average, this helps us to have an approximate of the performance of the model.
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=2cm,trim={0cm 21cm 0 4cm},clip]{tab_c25}}
+%\caption{Best test.}
+%\label{tab 25}
+%\end{table}
+
+%It is intended to seek to implement F-score to be able to better validate the model, it is intended to take as a result the total of classified images, let's say each subject is composed of an average of 200 images, then this will be taken as a whole if 70 \% of these images point to a person with ADHD, and it is ADHD, so we will say that the model was correct 1 time and we will not say that the model was 70 \% correct, for this, it is up for debate if it were tested looking for both labels and compare the results, that is, if we take the images of a person diagnosed with ADHD, we will test it by labeling it with ADHD, then we would do the same procedure again, incorrectly labeling it as Control, the generated accuracy result is compared with each other, or simply with a label.
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=12cm,trim={0cm 8cm 0 4cm},clip]{tab_c27}}
+%\caption{Test ADHD-Control.}
+%\label{tab 27}
+%\end{table}
+
+
+%The results shown in the table, describe practically random results, so this can be interpreted as that there is a lot of similarity between both subjects, it is, therefore, necessary to look for characteristics extraction techniques, specifically looking for those distinctive patterns between both. \\
+
+
+
+%In the table \ref{tab 27}, the same procedure is applied first, the test is done with the correct label and then an erroneous one seeking to make a comparison, in the following they are Control subjects. \\
+
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=8cm,trim={0cm 16cm 0 4cm},clip]{tab_c28}}
+%\caption{Test Control-ADHD.}
+%\label{tab 27}
+%\end{table}
+
+
+
+%The figure \ref{tab 29}, shows in the first column the name of the dataset, the number of tests, then it is given by the loss and the accuracy, this means that the trained model is tested 10 times, but it is necessary to mention that Each test is of 32 images, which are selected randomly, also remember that each dataset is composed of around 200 images.
+
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=15cm,trim={0cm 7cm 0 0cm},clip]{tab_c29}}
+%\caption{Test Run Control-ADHD Part A.}
+%\label{tab 29}
+%\end{table}
+
+
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=13cm,trim={0cm 7cm 0 0cm},clip]{tab_c30}}
+%\caption{Test Run Control-ADHD Part B.}
+%\label{tab 30}
+%\end{table}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 18cm 0 0cm},clip]{AI92}}
+%\caption{Accuracy by test.}
+%\label{fig 92}
+%\end{figure}
+
+\subsection{Results ResNeXt-101}
+
+The second model to be tested is the ResNeXt-101 model, the same as the first model, the results are shown in a table, in this case, the table \ref{tab 41}.
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 17cm 0 4cm},clip]{tab_c41}}
+\caption{Results of test ResNeXt-101}
+\label{tab 41}
+\end{table}
+
+We can see in figure \ref{fig 106}, the confusion matrix of the data exposed in the table \ref{tab 41}.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 19cm 0cm 1cm},clip]{AI106}}
+\caption{Confusion Matrix of ResNeXt-101}
+\label{fig 106}
+\end{figure}
+
+
+%The table \ref{tab 32} shows the results obtained with the different tests, it is observed that the loss and accuracy are observed 10 different values, this is from 10 different times, as mentioned above, each time corresponds to the accuracy or loss of 32 images, which they are randomly taken from a set of approximately 200 images for each subject.
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=15cm,trim={0cm 7cm 0 0cm},clip]{tab_c32}}
+%\caption{Test Run Control-ADHD Part A ResNeXt-101.}
+%\label{tab 32}
+%\end{table}
+
+%The sample table \ref{tab 32} is the second part of the previous table, we observe results for the different values.
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=15cm,trim={0cm 7cm 0 0cm},clip]{tab_c33}}
+%\caption{Test Run Control-ADHD Part B ResNeXt-101.}
+%\label{tab 33}
+%\end{table}
+
+%The figure shows a box plot representation of the values shown in the tables \ref{tab 32} \ref{tab 33}
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=7cm,trim={0cm 18cm 0 0cm},clip]{AI95}}
+%\caption{Accuracy by test ResNeXt101.}
+%\label{fig 95}
+%\end{figure}
+
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=8cm,trim={0cm 15cm 0 0cm},clip]{tab_c34}}
+%\caption{Test Run Control-ADHD Part B ResNeXt-101 Val.}
+%\label{tab 34}
+%\end{table}
+
+
+%As mentioned above, the model was run for a large number of epochs, in the table (ref), the values obtained for both models every 20 epochs are shown, the loss and accuracy values.
+
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=8cm,trim={0cm 15cm 0cm 0cm},clip]{tab_c35}}
+%\caption{train-val ResNet-152 and ResNeXt-101.}
+%\label{tab 35}
+%\end{table}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=12cm,trim={0cm 10cm 0 0cm},clip]{AI96}}
+%\caption{Accuracy by test.}
+%\label{fig 96}
+%\end{figure}
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=12cm,trim={0cm 10cm 0 0cm},clip]{AI107}}
+%\caption{.}
+%\label{fig 107}
+%\end{figure}
+
+
+
+
+
+%As mentioned above, a comparison is made between the ResNet-152 and ResNeXt-101 models, the first one proposes 152 depth cups and the second one proposes a parallel expansion, proposing the discussion if it is better to increase depth or parallelism. In the figures (ref acc by test), we observe a great similarity in the classification of the different tests, but even so a slightly better classification by the ResNeXt-101, also as we can see in the figure (ref fig losses and acc ), a higher learning speed of the ResNeXt-101 is shown, it is shown that for the same number of times the ResNeXt-101 achieves an accuracy of approximately .90, while ResNet-152 an approximate of .78, these The results provide a sample that although the former has less depth but greater parallelism, it achieves better results than the ResNet-152 with greater depth.\\
+
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=5cm,trim={0cm 21cm 0cm 0cm},clip]{tab_c31}}
+%\caption{train-val ResNet-152 and ResNeXt-101.}
+%\label{tab 31}
+%\end{table}
+
+
+
+\subsection{Results GoogLeNet}
+The last model is GoogLeNet, following the same procedures we can observe the results obtained in the table \ref{tab 42}.\\
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 17cm 0 4cm},clip]{tab_c42}}
+\caption{Results of test GoogLeNet}
+\label{tab 42}
+\end{table}
+
+The figure \ref{fig 108} shows the confusion matrix of the results obtained in this last test.\\
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 19cm 0cm 1cm},clip]{AI108}}
+\caption{Confusion Matrix of GoogLeNet}
+\label{fig 108}
+\end{figure}
+
+The figure \ref{fig 109} shows the different graphs during the training and validation of the three proposed models, we observe in section a) the accuracy by epoch during training, b) it shows the same but in the validation stage, c) is the loss by epoch during training and d) during validation.\\
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=12cm,trim={0cm 10cm 0 0cm},clip]{AI109}}
+\caption{a) Train Accuracy of ResNeXt-101, ResNet-152 and GoogLeNet. b)Validation Accuracy of ResNeXt-101, ResNet-152 and GoogLeNet. c) Train Loss of  ResNeXt-101, ResNet-152 and GoogLeNet d)Validation Loss ResNeXt-101, ResNet-152 and GoogLeNet. }
+\label{fig 109}
+\end{figure}
+
+
+The models were evaluated with the error metrics technique that was mentioned earlier. The results obtained by this, are observed in the table \ref{tab 31}, the results are shown by model.
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=3.5cm,trim={0cm 21cm 0cm 2.5cm},clip]{AI115}}
+\caption{Error metrics ResNet-152, ResNeXt-101 and GoogLeNet.}
+\label{tab 31}
+\end{table}
+
+
+
+
+\subsection{Results Logistic Regression.}
+
+
+In the implementation of the Logistic Regression algorithm, the database containing the measures of standard deviation, variation, entropy, absolute power, relative power was used, in the table \ref{fig 205}, different values of these characteristics are observed, among these, we have p-value, which mentions that entropy is the measure with the highest statistical significance.\\
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=4.5cm,trim={0cm 20cm 0cm 2cm},clip]{AI205}}
+\caption{Output values of Logistic Regression algorithm.}
+\label{fig 205}
+\end{figure}
+
+In the figure \ref{fig 200}, the prediction relationship concerning entropy is observed
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=6cm,trim={0cm 15cm 0cm 2cm},clip]{AI200}}
+\caption{Predicted relationship of entropy.}
+\label{fig 200}
+\end{figure}
+
+The model implemented in this research was validated with the metrics mentioned above, using a 70-30 method (this is  70\% of the randome data is used for training and the remaining 30\% is used for validation). The algorithm was run a certain number of times and the best result is the which is presented in table \ref{fig 207}.
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=2cm,trim={0cm 23cm 0cm 2cm},clip]{AI207}}
+\caption{Error metrics Logistic Regression.}
+\label{fig 207}
+\end{table}
+
+In figure \ref{fig 208}, the results obtained are observed, we can observe a comparison between false negatives, false positives, true negatives, and true positives, between the real class and the prediction.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=6cm,trim={0cm 16cm 0cm 1cm},clip]{AI208}}
+\caption{Confusion Matrix of Logistic Regression.}
+\label{fig 208}
+\end{figure}
+
+
+In the figure \ref{fig 209} we can see the ROC curve resulting from our model, the sensitivity of the model is observed on the y-axis and the specificity on the x-axis.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=5cm,trim={0cm 19cm 0cm 1cm},clip]{AI209}}
+\caption{ROC curve Logistic Regression.}
+\label{fig 209}
+\end{figure}
+
+
+\subsection{Results Maximum Likelihood.}
+
+
+The results obtained with the Maximum Likelihood model are observed in the table \ref{fig c55}, where it was evaluated with the metrics described in previous sections.
+
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=4cm,trim={0cm 21cm 0cm 3cm},clip]{tab_c55}}
+\caption{Error metrics Maximum Likelihood.}
+\label{fig c55}
+\end{figure}
+
+In the figure \ref{fig 225}, the confusion matrix of the different values obtained by the Maximum Likelihood model is observed.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=6cm,trim={0cm 15cm 0cm 1cm},clip]{AI225}}
+\caption{Confusion Matrix of Maximum Likelihood.}
+\label{fig 225}
+\end{figure}
+
+
+In the figure \ref{fig 247} the comparison of the different metrics used as evaluation methods for the two models implemented in this research work is observed, it is observed in the x-axis, two groups, which are: 0 and 1, where 0 belongs to the Maximum Likelihood model and 1 belongs to the Logistic Regression model, a trend of higher values are observed in the Maximum Likelihood model.
+
+\begin{figure}[H]
+\centerline{\adjincludegraphics[height=7.8cm,trim={0cm 15cm 0cm 1cm},clip]{AI247}}
+\caption{a) Accuracy of the Maximum Likelihood and Logistic Regression models. b) Precision of the Maximum Likelihood and Logistic Regression models. c) Recall of the Maximum Likelihood and Logistic Regression models. d) F1 of the Maximum Likelihood and Logistic Regression models.}
+\label{fig 247}
+\end{figure}
+%\subsubsection{Results PCA- Logistic Regression.}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=3cm,trim={0cm 23.7cm 0cm 1cm},clip]{AI211}}
+%\caption{.}
+%\label{fig 211}
+%\end{figure}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=6cm,trim={0cm 16cm 0cm 1cm},clip]{AI212}}
+%\caption{.}
+%\label{fig 212}
+%\end{figure}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=8cm,trim={0cm 15cm 0cm 1cm},clip]{AI213}}
+%\caption{.}
+%\label{fig 213}
+%\end{figure}
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=8cm,trim={0cm 15cm 0cm 1cm},clip]{AI214}}
+%\caption{.}
+%\label{fig 214}
+%\end{figure}
+
+
+%\begin{figure}[H]
+%\centerline{\adjincludegraphics[height=12cm,trim={0cm 11cm 0cm 1cm},clip]{AI215}}
+%\caption{.}
+%\label{fig 215}
+%\end{figure}
+
+
+\subsection{Discussion of results.}
+
+%As mentioned above, a comparison is made between the ResNet-152 and ResNeXt-101 models, the first one proposes 152 depth cups and the second one proposes a parallel expansion, proposing the discussion if it is better to increase depth or parallelism. In the figures (ref acc by test), we observe a great similarity in the classification of the different tests, but even so a slightly better classification by the ResNeXt-101, also as we can see in the figure (ref fig losses and acc ), a higher learning speed of the ResNeXt-101 is shown, it is shown that for the same number of times the ResNeXt-101 achieves an accuracy of approximately .90, while ResNet-152 an approximate of .78, these The results provide a sample that although the former has less depth but greater parallelism, it achieves better results than the ResNet-152 with greater depth.\\
+
+In this work, three different models of deep learning are proposed, in this case, ResNet-152, ResNeXt-101, and GoogLeNet, each of these models have individual characteristics, the network with greater depth is ResNet-152, as its name indicates. It is composed of 152 layers of deep, followed by ResNeXt-101 with 101 layers of deep and finally GoogLeNet with only 22 layers of deep, the first model obtains excellent results for the deep of its architecture, while the second proposes a lower depth but compensated for parallelism and the third one that has the least amount of layers, but the strength of this model lies in the use of the Inception module.\\
+
+We observe in the table \ref{tab 31} that the results obtained by these three models are very similar, so we can reiterate that the depth of the first one is compensated by parallelism in the second and third by the use of the Inception module.\\
+
+In the figure \ref{fig 109} we observe the performance of the different models, even though the performance of the three is very similar, we can observe a greater speed in the performance of the ResNeXt-101 model, followed by the ResNet-152 model, and finally GoogLeNet.\\
+
+Taking into account these assertions we can see that the model with the highest accuracy is ResNet-152 followed by the GoogLeNet model and finally the ResNeXt-101 model, giving a comparison between accuracy and computational cost, to finish this analysis it is possible to access One more metric, which is the execution time where ResNet-152 takes a time of 9m 20s, ResNeXt-101 an execution time of 11m 40s, finally GoogLeNet with an execution time of 6m 29s.\\
+
+
+%=========================================================
+
+The results obtained between the models implemented in this research work have similar values to each other where the greatest  
+difference is found in the implemented methodologies, which are separated into 2 different ones, the first one implemented for the Deep Learning models (ResNet-152, ResNeXt-101, and GoogLeNet) and the second one implemented for the Maximum Likelihood and Logistic Regression models. Both methodologies are the same up to the point of extraction of the $\beta$ band, but it is observed that for the Deep Learning methodology only the feature of Absolute Power is obtained, then it is necessary to extract the most relative attributes through GA, once these attributes have been obtained, it is necessary to convert them to images using the CWT technique in order to use these images as input for training, validation and testing of the three models. The second methodology makes use of a greater number of features which are; Standard Deviation, Variance, Entropy, Absolute Power and Relative Power, these are the characteristics that are used as training and testing for the Maximum Likelihood and Logistic Regression models.\\
+
+The table \ref{tab 57} shows the results obtained and the characteristics implemented for each model, we can see that the results obtained have a certain similarity with each other.
+
+\begin{table}[H]
+\centerline{\adjincludegraphics[height=6.5cm,trim={3.5cm 16cm 0 4cm},clip]{tab_c57}}
+\caption{Error metrics and measures.}
+\label{tab 57}
+\end{table}
+   
+
+
+The extraction of a greater amount of features means a greater amount of information, this allows the implementation of the Maximum Likelihood model, which in comparison with the three Deep Learning models, can be considered a model of less complexity and faster execution. Not only does the methodology implemented in the Maximum Likelihood model make use of a greater amount of information, but also during the process a lower loss of it is obtained, in the other hand, the methodology implemented in the Deep Learning models a loss of relevant information is observed, both in the section for a selection of attributes by the GA and in the conversion to 2D images by the CWT technique.\\
+
+In the figure \ref{fig 240}, the distribution of the different features obtained from the EEG signals of the ADHD and Control groups is observed, it is showed that the groups share a considerable number of values, but there is also a difference between both groups, each unique value has a greater probability of occurrence in one group than in the other, it is the principle that the Maximum Likelihood model is based on. Each value that is used as a test was evaluated by the model Maximum Likelihood in the five different features. In each feature makes a decision depending on the probability of occurrence after the mode of the five decisions is obtained and this is the final result of the evaluation.
+
+
+
+\subsection{Conclusion.}
+
+Taking into account the results and their discussion, we can conclude that the technique of using inception models is one of the most effective ways to address this problem, that is, according to the tests carried out, we observe that it is not the model with greater accuracy, nor is it the least accurate, also in learning performance it shows an intermediate place, and it is the one that takes the least time in execution, analyzing the last and most important point which is the enormous difference that exists between the number of deep layers and parallel layers, it shows better performance.\\
+
+
+As observed throughout this research work, a greater number of features are converted into a greater amount of information, which are: the Standard Deviation, the Variance, the Entropy, the Absolute Power and the Relative Power which provide sufficient information to be able to make a classification between the groups of ADHD and Control. In this research work complex models such as Deep Learning and not as complex as Maximum Likelihood are observed, but if the problem is analyzed and the results obtained, there is no high relationship between complexity and results, that is, it is necessary to know the problem and search for the best way to approach it, this research work concludes that, between the two methodologies proposed for the classification of people with ADHD and Control, the methodology implemented in the Maximum Likelihood model is more efficient, due to the fact that the features provide sufficient information to achieve classification with high accuracy.
+
+%It is important to mention starting from the results obtained in the table (ref), we observe different values of accuracy, depending on the individual, then, how can a difference be made between "it is a bad model and good test subjects", this means that all the subjects are correctly diagnosed and do not suffer from any other disorder an "It is a good model and bad test subjects", I personally believe that this is an important point to study and debate.\\
+
+%In the work \cite{Allahverdy}, it is observed that for the use of the dataset a sample rate of 128 was implemented, while in the preprocessing of this work a 256 Hz was implemented, for future work it is necessary to adjust these values, to observe the difference that this could originate in the pre-processing of the data, it is also important to mention that this pre-processing can be mentioned as a light one, so for future work the implementation of heavier pre-processing such as those mentioned in the state of art seeking to increase the accuracy of the model.\\
+
+%Es importante hablar del algoritmo de Independet Component Analysis como parte del preprocesamiento.
+%\begin{table}[H]
+%\centerline{\adjincludegraphics[height=5cm,trim={0cm 21cm 0cm 0cm},clip]{tab_c31}}
+%\caption{train-val ResNet-152 and ResNeXt-101.}
+%\label{tab 31}
+%\end{table}
+
+\subsection{Future work}
+Although some authors mention that the use of Principal Components Analysis (PCA) and Independent Component Analysis (ICA) are meaningful to solve this problem, it may be noteworthy to explore these techniques looking for new solutions.
+
+
+%Nota Español: Este trabajo es más que nada un farrago.
+
+
+
+
+\pagebreak
+
+
+\bibliographystyle{ieeetr}
+\bibliography{referenceEnglishTesis} 		
+
+
+
+\end{document}
+
+
+% https://meet.google.com/wsu-baef-qnj 
+% http://www.mcc.unam.mx/
+% http://www.mcc.unam.mx/archivos/22-1_MAESTRIAyDOCTORADO_Instructivo.pdf
+% https://web.cs.toronto.edu/graduate/admissions
+
+
+
